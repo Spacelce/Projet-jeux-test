@@ -34,8 +34,17 @@ ball .shape("square")
 ball .color("white")
 ball .penup()
 ball .goto(0,0)
-ball.dx = 0.1
-ball.dy = 0.1
+ball.dx = 0.2
+ball.dy = 0.2
+# Ligne milieu
+for i in range(6):
+    line = turtle.Turtle()
+    line .speed(0)
+    line .shape("square")
+    line .color("white")
+    line .shapesize(stretch_wid=2, stretch_len=0.5)
+    line .penup()
+    line .goto(0,235-(i*100))
 
 # Affichage Score
 pen = turtle.Turtle()
@@ -59,10 +68,10 @@ def paddle_b_up():
     y = paddle_b.ycor()
     y += 20
     paddle_b.sety(y)
-def paddle_b_down():
+def paddle_b_down():        
     y = paddle_b.ycor()
     y -= 20
-    paddle_b.sety(y)
+    paddle_b.sety(y) 
 
 # Keyboard binding
 window.listen()
@@ -101,6 +110,15 @@ while True:
         pen.clear()
         score_b += 1        
         pen.write("Player A: {} Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+    # Limites des Raquettes
+    if paddle_a.ycor()+50 > 300:
+        paddle_a.goto(-350,250)
+    if paddle_a.ycor()-50 < -300:
+        paddle_a.goto(-350,-250)
+    if paddle_b.ycor()+50 > 300:
+        paddle_b.goto(350,250)
+    if paddle_b.ycor()-50 < -300:
+        paddle_b.goto(350,-250)
     # Collisions avec les raquettes
     if (ball.xcor() > 340) and (ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 50) and (ball.ycor() > paddle_b.ycor() - 50):
         winsound.PlaySound("Pong/pong.wav", winsound.SND_ASYNC)
